@@ -106,7 +106,8 @@
             <li style="justify-self: end;"><img src="../images/greeting/choco.png" width="200" alt=""></li>
             <li style="justify-self: end;"><img src="../images/greeting/home.png" width="200" alt=""></li>
         </ul>
-        <h3 style="z-index: 20; color: #fff;">If you don't have an account, you can <a style="color: #fff" href="/signUp">register</a></h3>
+        <h3 style="z-index: 20; color: #fff;">If you don't have an account, you can <a style="color: #fff"
+                                                                                       href="/signUp">register</a></h3>
     </div>
 </div>
 
@@ -158,12 +159,37 @@
 
 
 <script>
-    $(document).ready(function() {
-        $("#click").click(function() {
+    $(document).ready(function () {
+        $("#click").click(function () {
             $.ajax({
-                method: "POST",
-                data: {
-                    action: "get_users"
+                url: "/users",
+                method: "GET",
+                success: function (data, i) {
+                    var a = data;
+                    console.log();
+                    data.forEach(function (item, i) {
+                        $("#userList").append(
+                            `<li data-uid="`+ item.id +`">
+                                <div class="overlay">
+                                    <div class="overBack"></div>
+                                    <h2>` + item.firstName + ` `+ item.lastName +`</h2>
+                                    <div class="userInfo">
+                                        <span>Город:</span><span>`+ item.city +`</span>
+                                        <span>Возраст:</span><span>`+ item.age +`</span>
+                                        <span>О себе:</span><span>`+ item.shortAbout +`</span>
+                                    </div>
+                                    <div class="countLikes">
+                                        <img src="../images/like.png" width="15"/>
+                                        <span>`+ item.countLikes +`</span>
+                                    </div>
+                                </div>
+                                <img src="/user-photo?id=`+ item.id +`" alt="">
+                                <form action="/profile" method="post" style="display: none">
+                                    <input type="hidden" name="user-id" value="`+ item.id +`">
+                                </form>
+                            </li>`
+                        );
+                    });
                 }
             });
         });
@@ -171,7 +197,7 @@
 
     $(document).ready(function () {
         // <% if(isAuth) { %>
-<#--        <#if req>-->
+        <#--        <#if req>-->
         $(".countLikes").on('click', function () {
             let currentLike = this
             let countLikes = Number($($(currentLike).children('span')).text())
@@ -193,7 +219,7 @@
                 curSpan.text(countLikes - 1)
             }
         });
-<#--        </#if>-->
+        <#--        </#if>-->
         // <% } %>
 
         // let users = <%= jsonUsers %>;

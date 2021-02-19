@@ -1,15 +1,16 @@
 package ru.itis.springdemo.services.users;
 
 import ru.itis.springdemo.dto.UserDto;
+import ru.itis.springdemo.models.User;
 
 import java.util.List;
 import java.util.Optional;
 
 
 public interface UsersService {
-    List<UserDto> getAll();
+    List<UserDto> findAll();
 
-    Optional<UserDto> findById(Integer id);
+    UserDto findById(Integer id);
 
     void updatePhoto(String photoName, Integer id);
 
