@@ -157,16 +157,13 @@
 
 <#--<jsp:include page="footer.jsp"/>-->
 
-
 <script>
     $(document).ready(function () {
         $("#click").click(function () {
             $.ajax({
                 url: "/users",
                 method: "GET",
-                success: function (data, i) {
-                    var a = data;
-                    console.log();
+                success: function (data) {
                     data.forEach(function (item, i) {
                         $("#userList").append(
                             `<li data-uid="`+ item.id +`">
@@ -247,22 +244,3 @@
 
 </body>
 </html>
-
-<#--<!doctype html>-->
-<#--<html lang="en">-->
-<#--<head>-->
-<#--    <meta charset="UTF-8">-->
-<#--    <meta name="viewport"-->
-<#--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
-<#--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
-<#--    <title>Document</title>-->
-<#--</head>-->
-<#--<body>-->
-<#--    <form action="/" method="post">-->
-<#--        <input type="text" name="name">-->
-<#--        <input type="email" name="email">-->
-<#--        <input type="password" name="password">-->
-<#--        <input type="submit" value="Exit">-->
-<#--    </form>-->
-<#--</body>-->
-<#--</html>-->

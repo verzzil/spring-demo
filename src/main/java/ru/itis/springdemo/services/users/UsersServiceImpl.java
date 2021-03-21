@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.itis.springdemo.dao.UserDao;
 import ru.itis.springdemo.dto.UserDto;
+import ru.itis.springdemo.models.State;
 import ru.itis.springdemo.models.User;
 
 import java.util.List;
@@ -25,6 +26,18 @@ public class UsersServiceImpl implements UsersService {
         return usersRepository.findAll().stream()
                 .map(User::toUserDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<UserDto> findByConfirmCode(String code) {
+        Optional<User> user = findUserByConfirmCode(code);
+        return Optional.ofNullable(user.get().toUserDto());
+    }
+
+    @Override
+    public void confirmUser(String code) {
+        Optional<User> user = findUserByConfirmCode(code);
+        user.ifPresent(user1 -> usersRepository.confirmUser(user1.getId(), State.CONFIRMED.getState()));
     }
 
     @Override
@@ -85,5 +98,9 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Optional<List<UserDto>> findUsersByFilter(String gender, String fromAge, String toAge, String city) {
         return Optional.empty();
+    }
+
+    private Optional<User> findUserByConfirmCode(String code) {
+        return usersRepository.findByConfirmCode(code);
     }
 }

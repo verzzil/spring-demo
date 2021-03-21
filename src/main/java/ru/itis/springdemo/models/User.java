@@ -29,6 +29,10 @@ public class User {
     private String hashPassword;
     private String role;
 
+    @Enumerated(value = EnumType.STRING)
+    private State state;
+    private String confirmCode;
+
     public UserDto toUserDto() {
         return UserDto.builder()
                 .firstName(this.firstName)
@@ -41,6 +45,7 @@ public class User {
                 .gender(this.gender)
                 .id(this.id)
                 .role(this.role)
+                .state(this.state)
                 .build();
     }
 }

@@ -18,8 +18,7 @@ public class UsersController {
 
     @GetMapping("/users")
     @ResponseBody
-    public ResponseEntity<List<UserDto>> getUserById() {
-        System.out.println(usersService.findAll().get(0));
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return ResponseEntity.ok(usersService.findAll());
     }
 

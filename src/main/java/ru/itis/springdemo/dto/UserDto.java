@@ -1,6 +1,7 @@
 package ru.itis.springdemo.dto;
 
 import lombok.*;
+import ru.itis.springdemo.models.State;
 
 @EqualsAndHashCode
 @Builder
@@ -18,6 +19,7 @@ public class UserDto {
     private Integer age;
     private Integer countLikes;
     private String role;
+    private State state;
 
     public boolean isAdmin() {
         return this.role.equals("admin");

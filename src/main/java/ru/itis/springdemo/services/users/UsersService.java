@@ -8,6 +8,11 @@ import java.util.Optional;
 
 
 public interface UsersService {
+
+    void confirmUser(String code);
+
+    Optional<UserDto> findByConfirmCode(String code);
+
     List<UserDto> findAll();
 
     UserDto findById(Integer id);
