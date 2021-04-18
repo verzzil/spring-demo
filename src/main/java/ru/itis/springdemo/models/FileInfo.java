@@ -1,47 +1,25 @@
 package ru.itis.springdemo.models;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
-@EqualsAndHashCode
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@ToString
+@Entity
 public class FileInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String originalFileName;
-    private Integer storageFileNameByUserId;
+    private String storageFileNameByUserId;
+    private Long size;
     private String type;
+    private String url;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-    }
-
-    public Integer getStorageFileNameByUserId() {
-        return storageFileNameByUserId;
-    }
-
-    public void setStorageFileNameByUserId(Integer storageFileNameByUserId) {
-        this.storageFileNameByUserId = storageFileNameByUserId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

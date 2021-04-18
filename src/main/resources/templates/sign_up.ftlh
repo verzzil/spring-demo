@@ -33,31 +33,7 @@
         <input type="submit" value="Регистрация">
     </form>
 
-    <div id="layers">
-        <div id="layer1"></div>
-        <div id="layer2"></div>
-        <div id="layer3"></div>
-        <div id="layer4"></div>
-        <div id="layer5">
-            <img src="../images/close.png" id="closeSignInForm" alt="">
-            <form id="signInForm" action="/" method="post">
-                <h1>Log in</h1>
-                <input type="text" name="email" autocomplete="none" placeholder="Enter email">
-                <input type="password" name="password" placeholder="Enter password">
-                <input type="hidden" name="sign-in">
-                <input type="submit" value="Log in">
-            </form>
-            <ul id="layerSprite">
-                <li><img src="../images/greeting/choco.png" width="200" alt=""></li>
-                <li><img src="../images/greeting/home.png" width="200" alt=""></li>
-                <li style="justify-self: end;"><img src="../images/greeting/choco.png" width="200" alt=""></li>
-                <li style="justify-self: end;"><img src="../images/greeting/home.png" width="200" alt=""></li>
-            </ul>
-            <h3 style="z-index: 20; color: #fff;">If you don't have an account, you can <a style="color: #fff"
-                                                                                           href="/signUp">register</a>
-            </h3>
-        </div>
-    </div>
+    <#include './layerSprite.ftlh'>
 
 </div>
 

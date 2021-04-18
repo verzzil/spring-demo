@@ -5,7 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.itis.springdemo.dao.UserDao;
 import ru.itis.springdemo.dto.SignUpForm;
-import ru.itis.springdemo.models.State;
 import ru.itis.springdemo.models.User;
 import ru.itis.springdemo.services.mails.MailsService;
 
@@ -33,7 +32,9 @@ public class SignUpServiceImpl implements SignUpService {
                 .gender(form.getGender())
                 .city(form.getCity())
                 .age(form.getAge())
-                .state(State.NOT_CONFIRMED)
+                .banState(User.BanState.ACTIVE)
+                .role(User.Role.USER)
+                .state(User.State.NOT_CONFIRMED)
                 .confirmCode(UUID.randomUUID().toString())
                 .build();
 

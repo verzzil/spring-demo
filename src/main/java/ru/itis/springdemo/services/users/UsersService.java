@@ -1,13 +1,22 @@
 package ru.itis.springdemo.services.users;
 
 import ru.itis.springdemo.dto.UserDto;
-import ru.itis.springdemo.models.User;
 
 import java.util.List;
 import java.util.Optional;
 
 
 public interface UsersService {
+
+    boolean isCurrentProfileIsLiked(Integer idSessionUser, Integer idProfileUser);
+
+    List<Integer> idsOfLikedArticlesOfTheCurrentProfile(Integer idSessionUser, Integer idProfileUser);
+
+    List<UserDto> getUsersWithLimit6(Integer page);
+
+    List<Integer> getLikedUsersIdsFromUserId(Integer id);
+
+    List<UserDto> getLikedUsersFromUserId(Integer id);
 
     void confirmUser(String code);
 

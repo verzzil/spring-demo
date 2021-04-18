@@ -1,5 +1,7 @@
 package ru.itis.springdemo.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,8 @@ public interface UserDao extends JpaRepository<User, Integer> {
     @Transactional
     @Query(nativeQuery = true, value = "update account set state = :state where id = :id")
     void confirmUser(Integer id, String state);
+
+    @Query(nativeQuery = true, value = "select * from account")
+    Page<User> getUsersWithLimit6(Pageable pageable);
+
 }

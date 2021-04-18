@@ -104,7 +104,7 @@ public class ArticlesRepositoryImpl implements ArticlesRepository {
                 SQL_INSERT,
                 entity.getText(),
                 entity.getCountLikes(),
-                entity.getUserId()
+                entity.getAuthor().getId()
         );
     }
 
