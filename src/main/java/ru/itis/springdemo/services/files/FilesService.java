@@ -1,18 +1,15 @@
 package ru.itis.springdemo.services.files;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.itis.springdemo.models.FileInfo;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Optional;
 
 public interface FilesService {
-    void saveFileToStorage(
-            InputStream stream,
-            Integer userId,
-            String originalFileName,
-            String contentType
-    );
-    void writeFileFromStorage(Integer userId, OutputStream stream);
-    Optional<FileInfo> getFileInfo(Integer userId);
+    String saveFile(MultipartFile file, Integer userId);
+
+    void writeFileToResponse(String fileName, HttpServletResponse response);
 }

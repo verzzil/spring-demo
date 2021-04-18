@@ -336,16 +336,16 @@ nav {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgba(89, 83, 255, .5);
+    background: rgba(89, 83, 255, 0.5);
     transition: all .3s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(89, 83, 255, 1);
+    background: rgb(89, 83, 255);
 }
 
 ::-webkit-scrollbar-thumb:active {
-    background: linear-gradient(left, #22ADD4, #1E98BA);
+    background: linear-gradient(left, #22ADD4, #1e98ba);
 }
 
 @keyframes loveMessage {
@@ -528,4 +528,19 @@ footer a {
 
 #submit-search-user-by-criteria:hover {
     background: #d0d0d0;
+}
+
+#load_new_users {
+    width: 80%;
+    background: #5953FF;
+    color: #fff;
+    padding: 20px 0;
+    border-radius: 20px;
+    cursor: pointer;
+    outline: none;
+    justify-self: center;
+}
+
+#load_new_users:hover {
+    background: #1E98BA;
 }

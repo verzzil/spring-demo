@@ -81,7 +81,7 @@ public class FilesRepositoryImpl implements FilesRepository {
                 resultSet -> {
                     if (resultSet.next())
                         return FileInfo.builder()
-                                .storageFileNameByUserId(resultSet.getInt("storage_file_name_by_user_id"))
+                                .storageFileNameByUserId(resultSet.getString("storage_file_name_by_user_id"))
                                 .originalFileName(resultSet.getString("original_file_name"))
                                 .type(resultSet.getString("type"))
                                 .build();

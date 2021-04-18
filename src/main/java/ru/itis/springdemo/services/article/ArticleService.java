@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public interface ArticleService {
     void save(Article article);
+    List<ArticleDto> getLikedArticlesFromId(Integer id);
     void delete(Integer id);
     void like(Integer articleId, Integer fromUserId, Integer toUserId, Integer countLikes);
     List<Integer> findAllIdsWhereLiked(Integer userId);
-    Optional<List<ArticleDto>> showUserArticles(Integer id);
+    List<ArticleDto> getUserArticles(Integer id);
 }

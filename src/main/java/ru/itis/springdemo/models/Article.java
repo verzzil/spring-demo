@@ -1,38 +1,29 @@
 package ru.itis.springdemo.models;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+
+import javax.persistence.*;
 
 @EqualsAndHashCode
 @Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@Entity
 public class Article {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String text;
     private Integer countLikes;
-    private Integer userId;
 
-    public Integer getUserId() {
-        return userId;
-    }
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+    @Transient
+    private Integer authorId;
 
-    public String getText() {
-        return text;
-    }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Integer getCountLikes() {
-        return countLikes;
-    }
-
-    public void setCountLikes(Integer countLikes) {
-        this.countLikes = countLikes;
-    }
 }

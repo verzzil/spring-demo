@@ -1,76 +1,77 @@
 package ru.itis.springdemo.services.files;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.itis.springdemo.dao.FilesDao;
+import ru.itis.springdemo.dao.repositories.FilesRepo;
 import ru.itis.springdemo.models.FileInfo;
-import ru.itis.springdemo.repositories.files.FilesRepository;
 
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+@Service
 public class FilesServiceImpl implements FilesService {
 
-    private FilesRepository filesRepository;
+    @Autowired
+    private FilesDao filesDao;
 
-    public FilesServiceImpl(FilesRepository fileRepository) {
-        this.filesRepository = fileRepository;
-    }
+    @Autowired
+    private FilesRepo filesRepo;
+
+    private String storagePath = "D:\\Projects\\spring-demo\\src\\main\\resources\\static\\images\\usersPhotos";
 
     @Override
-    public void saveFileToStorage(
-            InputStream stream,
-            Integer userId,
-            String originalFileName,
-            String contentType
-    ) {
-        FileInfo fileInfo = FileInfo.builder()
-                .originalFileName(originalFileName)
-                .storageFileNameByUserId(userId)
-                .type(contentType)
+    public String saveFile(MultipartFile uploadFile, Integer userId) {
+        FileInfo file = FileInfo.builder()
+                .type(uploadFile.getContentType())
+                .originalFileName(uploadFile.getOriginalFilename())
+                .storageFileNameByUserId(String.valueOf(userId))
+                .size(uploadFile.getSize())
+                .url(storagePath + "\\" + userId + "." + FilenameUtils.getExtension(uploadFile.getOriginalFilename()))
                 .build();
+
         try {
-            String fileName = fileInfo.getStorageFileNameByUserId() + "." + fileInfo.getType().split("/")[1];
-            Files.deleteIfExists(
-                    Paths.get(
-                            "D://Projects/InfaHoWo/src/main/webapp/images/usersPhotos/" +
-                            fileName
-                    )
-            );
-            Files.copy(
-                    stream,
-                    Paths.get(
-                            "D://Projects/InfaHoWo/src/main/webapp/images/usersPhotos/" +
-                                    fileName
-                    )
-            );
-            filesRepository.save(fileInfo);
+            Files.deleteIfExists(Paths.get(storagePath, userId + "." + FilenameUtils.getExtension(uploadFile.getOriginalFilename())));
+            Files.copy(uploadFile.getInputStream(), Paths.get(storagePath, userId + "." + FilenameUtils.getExtension(uploadFile.getOriginalFilename())));
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            e.printStackTrace();
         }
+
+        filesRepo.save(file);
+        return file.getUrl();
     }
 
     @Override
-    public void writeFileFromStorage(Integer userId, OutputStream stream) {
-        Optional<FileInfo> fileInfo = filesRepository.findById(userId);
-        if(fileInfo.isPresent()) {
-            File file = new File(
-                    "D://Projects/InfaHoWo/src/main/webapp/images/usersPhotos/" +
-                            fileInfo.get().getStorageFileNameByUserId() + "." + fileInfo.get().getType().split("/")[1]
-            );
+    public void writeFileToResponse(String fileName, HttpServletResponse response) {
+        Optional<FileInfo> fileInfo = filesDao.findByStorageFileNameByUserId(fileName);
+        if (fileInfo.isPresent()) {
+            response.setContentType(fileInfo.get().getType());
             try {
-                Files.copy(file.toPath(), stream);
-            } catch (IOException e) {
+                FileInputStream stream = new FileInputStream(fileInfo.get().getUrl());
+                IOUtils.copy(stream, response.getOutputStream());
+                stream.close();
+                response.flushBuffer();
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        } else {
+            response.setContentType("image/png");
+            try {
+                FileInputStream stream = new FileInputStream("D:\\Projects\\spring-demo\\src\\main\\resources\\static\\images\\usersPhotos\\default.png");
+                IOUtils.copy(stream, response.getOutputStream());
+                stream.close();
+                response.flushBuffer();
+            } catch (Exception e) {
                 throw new IllegalStateException(e);
             }
         }
-
-    }
-
-    @Override
-    public Optional<FileInfo> getFileInfo(Integer userId) {
-        return filesRepository.findById(userId);
     }
 }
